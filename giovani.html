@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>À deux, même à distance ❤️</title>
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #170b16;
+  --panel: #281323;
+  --pink: #ff6f9f;
+  --pink2: #ffb5cc;
+  --text: #fff4f7;
+  --muted: #d7b8c8;
+  --line: #684057;
+  --gold: #ffd9a0;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: radial-gradient(ellipse at top, #49203a 0, #170b16 60%);
+  font-family: system-ui, sans-serif;
+  color: var(--text);
+  min-height: 100vh;
+}
+main {
+  width: min(100% - 28px, 560px);
+  margin: 0 auto;
+  padding: 30px 0 44px;
+}
+.brand { text-align: center; margin: 10px 0 24px; }
+.heart { font-size: 34px; }
+.brand h1 { font-size: clamp(27px, 7vw, 38px); margin: 8px 0; }
+.brand p, .muted { color: var(--muted); }
+.panel {
+  background: rgba(40,19,35,.94);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 22px;
+  box-shadow: 0 18px 50px #08030866;
+}
+.hidden { display: none !important; }
+.eyebrow {
+  color: var(--pink2);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+}
+.panel h2 { margin: 8px 0; font-size: 24px; }
+.muted { font-size: 14px; line-height: 1.5; }
+.field {
+  display: block;
+  margin: 16px 0 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--pink2);
+}
+input, select {
+  width: 100%;
+  padding: 14px 15px;
+  border-radius: 13px;
+  border: 1px solid #75445f;
+  background: #1b0c19;
+  color: var(--text);
+  font-size: 16px;
+}
+button {
+  width: 100%;
+  border: 0;
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-top: 12px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  background: linear-gradient(100deg,#ff6f9f,#ff9bb9);
+  color: #32101f;
+}
+button.secondary {
+  background: #48223a;
+  color: #fff0f6;
+  border: 1px solid #75445f;
+}
+button.ghost {
+  background: transparent;
+  border: 1px solid #75445f;
+  color: var(--pink2);
+}
+button:disabled { opacity: .45; cursor: not-allowed; }
+.code {
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: 7px;
+  text-align: center;
+  color: var(--gold);
+  padding: 14px;
+  border: 1px dashed #b9819e;
+  border-radius: 15px;
+  margin: 15px 0;
+}
+.status {
+  padding: 11px 13px;
+  border-radius: 12px;
+  background: #1c0d19;
+  border: 1px solid #684057;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+  margin-top: 14px;
+}
+.status.good { color: #b9f6d0; border-color: #357a5b; }
+.status.bad { color: #ffd0d0; border-color: #9d414e; }
+.players { display: flex; gap: 10px; margin: 16px 0; }
+.player {
+  flex: 1;
+  padding: 12px;
+  background: #1c0d19;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  text-align: center;
+}
+.player strong { display: block; overflow-wrap: anywhere; }
+.player small { color: var(--muted); }
+.card {
+  min-height: 190px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(145deg,#57213f,#291326);
+  border: 1px solid #a6537c;
+  border-radius: 22px;
+  padding: 24px;
+  margin: 18px 0;
+}
+.card .emoji { font-size: 36px; }
+.card .category {
+  color: var(--pink2);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin: 10px 0;
+}
+.card p { font-size: 21px; font-weight: 700; line-height: 1.4; }
+.foot { text-align: center; color: #a98a9c; font-size: 11px; margin-top: 18px; }
+.check {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.4;
+  margin: 14px 0;
+}
+.check input { width: auto; margin-top: 3px; }
+.room-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.room-actions button { font-size: 13px; padding: 12px 8px; }
+.divider { border: 0; border-top: 1px solid var(--line); margin: 20px 0; }
+</style>
+</head>
+
+<body>
+<main>
+<header class="brand">
+  <div class="heart">💌</div>
+  <h1>À deux, même à distance</h1>
+  <p>Un petit jeu de complicité, chacun chez soi ❤️</p>
+</header>
+
+<section id="home" class="panel">
+  <div class="eyebrow">Votre bulle à deux</div>
+  <h2>On se retrouve ?</h2>
+  <p class="muted">Crée une partie et partage son code, ou rejoins celle de ton/ta partenaire.</p>
+
+  <label class="field" for="nickname">Ton prénom</label>
+  <input id="nickname" maxlength="24" placeholder="Ex. Giovani">
+
+  <button id="createBtn">💗 Créer une partie</button>
+
+  <hr class="divider">
+
+  <label class="field" for="joinCode">Code de la partie</label>
+  <input id="joinCode" maxlength="6" placeholder="Ex. LOVE27">
+
+  <button class="secondary" id="joinBtn">🔑 Entrer dans la partie</button>
+
+  <div id="homeStatus" class="status">
+    Configure Firebase pour activer les parties à distance.
+  </div>
+
+  <label class="check">
+    <input id="consent" type="checkbox">
+    <span>Nous sommes tous les deux adultes et nous choisissons librement de jouer. On peut passer une carte à tout moment.</span>
+  </label>
+</section>
+
+<section id="lobby" class="panel hidden">
+  <div class="eyebrow">Votre partie</div>
+  <h2>Le code secret 💞</h2>
+  <p class="muted">Envoie ce code à ton/ta partenaire.</p>
+  <div id="roomCode" class="code">------</div>
+  <button id="copyBtn" class="secondary">Copier le code</button>
+
+  <div class="players">
+    <div class="player"><strong id="playerOne">—</strong><small>Joueur 1</small></div>
+    <div class="player"><strong id="playerTwo">En attente…</strong><small>Joueur 2</small></div>
+  </div>
+
+  <div id="lobbyStatus" class="status">En attente de l'autre joueur…</div>
+  <button id="startBtn" disabled>✨ Commencer la partie</button>
+  <button id="leaveBtn" class="ghost">Quitter</button>
+</section>
+
+<section id="game" class="panel hidden">
+  <div class="eyebrow">Votre moment à deux</div>
+  <h2 id="turnTitle">C'est ton tour ❤️</h2>
+
+  <div class="players">
+    <div class="player"><strong id="gameP1">—</strong><small>Joueur 1</small></div>
+    <div class="player"><strong id="gameP2">—</strong><small>Joueur 2</small></div>
+  </div>
+
+  <label class="field" for="category">Choisis une catégorie</label>
+  <select id="category">
+    <option value="verite">Vérité intime</option>
+    <option value="tendre">Défi tendre</option>
+    <option value="tentation">Tentation</option>
+  </select>
+
+  <div class="card">
+    <div class="emoji">💌</div>
+    <div id="cardCategory" class="category">À vous de jouer</div>
+    <p id="cardText">Tire une carte pour commencer…</p>
+  </div>
+
+  <div class="room-actions">
+    <button id="drawBtn">🎴 Tirer une carte</button>
+    <button id="passBtn" class="secondary">⏭️ Passer</button>
+  </div>
+
+  <button id="nextBtn" class="ghost">Changer de joueur</button>
+  <div id="gameStatus" class="status">Prêts à jouer ? ❤️</div>
+  <button id="endBtn" class="ghost">Terminer la partie</button>
+</section>
+
+<p class="foot">La complicité avant tout. Pas de pression : chacun peut passer son tour.</p>
+</main>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+<script>
+// 1. REMPLACE CES VALEURS PAR LA CONFIGURATION DE TON PROJET FIREBASE.
+const firebaseConfig = {
+  apiKey: "COLLER_API_KEY",
+  authDomain: "COLLER_PROJECT_ID.firebaseapp.com",
+  databaseURL: "COLLER_DATABASE_URL",
+  projectId: "COLLER_PROJECT_ID",
+  appId: "COLLER_APP_ID"
+};
+
+const firebaseReady = firebaseConfig.apiKey !== "COLLER_API_KEY";
+
+const truths = [
+"Quel petit détail chez moi te fait craquer ?",
+"Quel souvenir de nous te fait sourire ?",
+"Qu'aimerais-tu faire lors de notre prochaine rencontre ?",
+"Quel compliment aimerais-tu recevoir plus souvent ?",
+"Quand t'es-tu senti(e) le plus proche de moi ?",
+"Quelle chanson te fait penser à nous ?",
+"Quelle est ta façon préférée de recevoir de l'affection ?",
+"Quel serait notre rendez-vous idéal ?",
+"Quelle chose aimerais-tu qu'on ose se dire plus souvent ?",
+"Qu'est-ce qui te met immédiatement de bonne humeur ?",
+"Quel message de moi t'a fait le plus plaisir ?",
+"Qu'est-ce qui te donne confiance dans notre relation ?",
+"Quel surnom affectueux préfères-tu ?",
+"Quelle est ton envie pour notre prochain moment ensemble ?",
+"Quel geste tendre te touche le plus ?",
+"Qu'aimerais-tu apprendre sur moi ?",
+"Quelle est ta définition d'une belle complicité ?",
+"Quel est ton souvenir préféré de notre début ?",
+"Qu'est-ce que tu trouves attirant dans ma personnalité ?",
+"Quelle petite attention te ferait plaisir cette semaine ?"
+];
+
+const tender = [
+"Envoie un compliment sincère à l'autre.",
+"Décris votre rendez-vous idéal en trois phrases.",
+"Envoie un emoji qui décrit ton humeur quand tu penses à l'autre.",
+"Raconte un souvenir drôle que vous partagez.",
+"Écris une mini-déclaration de deux phrases.",
+"Choisis une chanson à écouter en pensant à l'autre.",
+"Dis trois choses que tu apprécies chez ton/ta partenaire.",
+"Invente un surnom mignon pour l'autre.",
+"Envoie un mot doux si tu en as envie.",
+"Propose une activité à faire ensemble à distance.",
+"Fais deviner un souvenir commun avec trois indices.",
+"Écris une invitation pour votre prochain rendez-vous.",
+"Raconte une chose qui t'a fait rire aujourd'hui.",
+"Choisis une couleur de cœur et explique pourquoi elle vous représente.",
+"Décris votre couple comme le titre d'un film romantique."
+];
+
+const temptation = [
+"Tu préfères un long câlin ou un baiser tendre ?",
+"Tu préfères un rendez-vous surprise ou tout organiser ensemble ?",
+"Tu préfères des mots doux ou des petites attentions ?",
+"Tu préfères danser ensemble ou regarder un film blottis l'un contre l'autre ?",
+"Tu préfères recevoir un message inattendu ou un appel surprise ?",
+"Tu préfères une soirée romantique ou une aventure improvisée ?",
+"Tu préfères tenir la main ou recevoir un câlin ?",
+"Tu préfères un compliment sur ton apparence ou sur ta personnalité ?",
+"Tu préfères parler jusqu'au bout de la nuit ou partager un silence confortable ?",
+"Tu préfères planifier votre prochaine rencontre ou rêver à deux ?"
+];
+
+let room = null;
+let localPlayer = null;
+let players = [];
+let turn = 0;
+let currentCard = null;
+let seen = { verite: [], tendre: [], tentation: [] };
+let db = null;
+let roomRef = null;
+let roomListener = null;
+
+const $ = id => document.getElementById(id);
+
+function show(id) {
+  ["home", "lobby", "game"].forEach(section => {
+    $(section).classList.toggle("hidden", section !== id);
+  });
+}
+
+function status(id, message, type = "") {
+  $(id).textContent = message;
+  $(id).className = "status " + type;
+}
+
+function codeGen() {
+  return Math.random().toString(36).slice(2, 8).toUpperCase();
+}
+
+function safeName(value) {
+  return value.trim().slice(0, 24);
+}
+
+function requireReady() {
+  if (!firebaseReady) {
+    status("homeStatus", "Firebase n'est pas encore configuré. Remplace les valeurs indiquées dans le code par celles de ton projet Firebase.", "bad");
+    return false;
+  }
+  return true;
+}
+
+function updatePlayers() {
+  const first = players[0]?.name || "—";
+  const second = players[1]?.name || "En attente…";
+
+  $("playerOne").textContent = first;
+  $("playerTwo").textContent = second;
+  $("gameP1").textContent = first;
+  $("gameP2").textContent = second;
+  $("startBtn").disabled = players.length < 2;
+}
+
+function renderGame() {
+  updatePlayers();
+  $("turnTitle").textContent =
+    "C’est au tour de " + (players[turn]?.name || "…") + " ❤️";
+
+  if (currentCard) {
+    $("cardCategory").textContent = currentCard.category;
+    $("cardText").textContent = currentCard.text;
+  }
+}
+
+function applyRoom(data) {
+  players = Object.entries(data.players || {}).map(([uid, player]) => ({
+    uid,
+    name: player.name || "Joueur"
+  }));
+
+  turn = data.turn || 0;
+  currentCard = data.currentCard || null;
+  seen = data.seen || seen;
+
+  updatePlayers();
+
+  if (players.length >= 2) {
+    status("lobbyStatus", "Vous êtes deux ! Vous pouvez commencer.", "good");
+  }
+
+  if (!$("game").classList.contains("hidden")) {
+    renderGame();
+  }
+}
+
+function syncState(changes) {
+  if (!roomRef || !localPlayer) return Promise.resolve();
+
+  return roomRef.update({
+    ...changes,
+    updatedAt: Date.now()
+  }).catch(error => {
+    status("gameStatus", "Synchronisation impossible : " + error.message, "bad");
+  });
+}
+
+async function enterRoom(code, name, create) {
+  if (!requireReady()) return;
+
+  if (!$("consent").checked) {
+    status("homeStatus", "Coche la confirmation avant de continuer.", "bad");
+    return;
+  }
+
+  if (!name) {
+    status("homeStatus", "Entre ton prénom.", "bad");
+    return;
+  }
+
+  try {
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+
+    const auth = firebase.auth();
+    await auth.signInAnonymously();
+    localPlayer = auth.currentUser.uid;
+    db = firebase.database();
+
+    const ref = db.ref("rooms/" + code);
+
+    if (create) {
+      const initial = {
+        createdAt: Date.now(),
+        players: {
+          [localPlayer]: {
+            name,
+            joinedAt: Date.now()
+          }
+        },
+        turn: 0,
+        currentCard: null,
+        seen: { verite: [], tendre: [], tentation: [] }
+      };
+
+      await ref.set(initial);
+    } else {
+      const snapshot = await ref.once("value");
+
+      if (!snapshot.exists()) {
+        status("homeStatus", "Code introuvable. Vérifie le code reçu.", "bad");
+        return;
+      }
+
+      const data = snapshot.val();
+      const people = Object.keys(data.players || {});
+
+      if (!data.players?.[localPlayer]) {
+        if (people.length >= 2) {
+          status("homeStatus", "Cette partie est déjà complète.", "bad");
+          return;
+        }
+
+        await ref.child("players/" + localPlayer).set({
+          name,
+          joinedAt: Date.now()
+        });
+      }
+    }
+
+    room = code;
+    roomRef = ref;
+
+    const snapshot = await ref.once("value");
+    applyRoom(snapshot.val());
+
+    roomListener = ref.on("value", snap => {
+      if (snap.exists()) applyRoom(snap.val());
+    });
+
+    $("roomCode").textContent = code;
+    show("lobby");
+    status("lobbyStatus", "Partie connectée. En attente de l'autre joueur…", "good");
+
+  } catch (error) {
+    status("homeStatus", "Connexion impossible : " + error.message, "bad");
+  }
+}
+
+function drawCard() {
+  const key = $("category").value;
+  const decks = {
+    verite: truths,
+    tendre: tender,
+    tentation
+  };
+
+  const deck = decks[key];
+  let available = deck
+    .map((text, index) => ({ text, index }))
+    .filter(card => !seen[key].includes(card.index));
+
+  if (!available.length) {
+    seen[key] = [];
+    available = deck.map((text, index) => ({ text, index }));
+  }
+
+  const selected = available[Math.floor(Math.random() * available.length)];
+  seen[key].push(selected.index);
+
+  const labels = {
+    verite: "Vérité intime",
+    tendre: "Défi tendre",
+    tentation: "Tentation"
+  };
+
+  currentCard = {
+    category: labels[key],
+    text: selected.text
+  };
+
+  $("cardCategory").textContent = currentCard.category;
+  $("cardText").textContent = currentCard.text;
+
+  syncState({ currentCard, seen });
+}
+
+$("createBtn").onclick = () => {
+  const name = safeName($("nickname").value);
+  enterRoom(codeGen(), name, true);
+};
+
+$("joinBtn").onclick = () => {
+  const name = safeName($("nickname").value);
+  const code = $("joinCode").value.trim().toUpperCase();
+
+  if (code.length < 4) {
+    status("homeStatus", "Entre le code reçu.", "bad");
+    return;
+  }
+
+  enterRoom(code, name, false);
+};
+
+$("joinCode").addEventListener("input", event => {
+  event.target.value = event.target.value
+    .toUpperCase()
+    .replace(/[^A-Z0-9]/g, "")
+    .slice(0, 6);
+});
+
+$("copyBtn").onclick = async () => {
+  try {
+    await navigator.clipboard.writeText(room);
+    status("lobbyStatus", "Code copié ! Envoie-le à ton/ta partenaire.", "good");
+  } catch {
+    status("lobbyStatus", "Partage ce code : " + room);
+  }
+};
+
+$("startBtn").onclick = async () => {
+  if (players.length < 2) return;
+
+  turn = 0;
+  currentCard = null;
+
+  await syncState({ turn, currentCard });
+  renderGame();
+  show("game");
+};
+
+$("drawBtn").onclick = () => {
+  if (players.length < 2) return;
+  drawCard();
+  renderGame();
+};
+
+$("passBtn").onclick = () => {
+  currentCard = {
+    category: "Carte passée",
+    text: "On passe sans pression 💗"
+  };
+
+  $("cardCategory").textContent = currentCard.category;
+  $("cardText").textContent = currentCard.text;
+  syncState({ currentCard });
+};
+
+$("nextBtn").onclick = () => {
+  turn = (turn + 1) % Math.max(players.length, 1);
+  syncState({ turn });
+  renderGame();
+};
+
+$("endBtn").onclick = () => {
+  show("lobby");
+  status("lobbyStatus", "La partie reste ouverte. Vous pouvez reprendre quand vous voulez.");
+};
+
+$("leaveBtn").onclick = () => {
+  if (roomRef && roomListener) {
+    roomRef.off("value", roomListener);
+  }
+
+  room = null;
+  roomRef = null;
+  roomListener = null;
+  localPlayer = null;
+  players = [];
+
+  show("home");
+  status("homeStatus", "Tu as quitté l'affichage de la partie.", "good");
+};
+
+if (!firebaseReady) {
+  status(
+    "homeStatus",
+    "L'interface est prête, mais il faut configurer Firebase avant de jouer à distance."
+  );
+}
+</script>
+</body>
+</html>
